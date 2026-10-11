@@ -1,35 +1,5 @@
-
--- Data Cleaning & Preparation: Order Items
--- Target Table: olist_order_items_dataset
--- Target View:  vw_clean_order_items
-
 USE olist_db;
 
--- 1. Table Schema Setup
-CREATE TABLE IF NOT EXISTS olist_db.olist_order_items_dataset (
-    order_id VARCHAR(255),
-    order_item_id INT,
-    product_id VARCHAR(255),
-    seller_id VARCHAR(255),
-    shipping_limit_date DATETIME,
-    price DECIMAL(10, 2),
-    freight_value DECIMAL(10, 2)
-);
-
--- 2. Raw Data Ingestion
-SET GLOBAL local_infile = 1;
-
-LOAD DATA LOCAL INFILE '01_raw_data/olist_order_items_dataset.csv'
-INTO TABLE olist_order_items_dataset
-CHARACTER SET utf8mb4
-FIELDS TERMINATED BY ','
-ENCLOSED BY '"'
-LINES TERMINATED BY '\n'
-IGNORE 1 ROWS;
-
--- Data Integrity & Anomaly Checks
-
--- Verify composite primary key uniqueness (order_id + order_item_id)
 SELECT 
     order_id, 
     order_item_id, 
