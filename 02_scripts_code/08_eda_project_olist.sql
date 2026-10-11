@@ -1,10 +1,4 @@
--- Exploratory Data Analysis (EDA): Business & Supply Chain Metrics
--- Target Database: olist_db
-
 USE olist_db;
-
--- 1. Executive Summary KPIs: GMV, Orders, Customers, AOV
-
 SELECT 
     -- Total Gross Merchandise Value (GMV)
     ROUND(SUM(i.price), 2) AS total_gmv,
