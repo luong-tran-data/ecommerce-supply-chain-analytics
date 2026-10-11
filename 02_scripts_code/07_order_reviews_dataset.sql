@@ -1,38 +1,4 @@
--- Data Cleaning & Preparation: Order Reviews
--- Target Table: olist_order_reviews_dataset
--- Target View:  vw_clean_order_reviews
-
 USE olist_db;
-
--- 1. Table Schema Setup
-CREATE TABLE IF NOT EXISTS olist_db.olist_order_reviews_dataset (
-    review_id VARCHAR(255),
-    order_id VARCHAR(255),
-    review_score INT,
-    review_comment_title TEXT,
-    review_comment_message TEXT,
-    review_creation_date DATETIME,
-    review_answer_timestamp DATETIME
-);
-
--- 2. Raw Data Ingestion
-SET GLOBAL local_infile = 1;
-
-LOAD DATA LOCAL INFILE '01_raw_data/olist_order_reviews_dataset.csv'
-INTO TABLE olist_order_reviews_dataset
-CHARACTER SET utf8mb4
-FIELDS TERMINATED BY ','
-ENCLOSED BY '"'
-LINES TERMINATED BY '\n'
-IGNORE 1 ROWS;
-
--- Clean Reviews View Creation
--- Cleaning Rules:
--- 1. Deduplicate reviews per order: select the latest review per order_id using ROW_NUMBER()
--- 2. Validate review score range (between 1 and 5)
--- 3. Standardize timestamps to DATE
--- 4. Clean text fields (trim spaces and handle empty review comments)
-
 CREATE OR REPLACE VIEW vw_clean_order_reviews AS
 WITH ranked_reviews AS (
     SELECT 
@@ -61,8 +27,6 @@ SELECT
     review_answer_date
 FROM ranked_reviews
 WHERE rank_num = 1;
-
--- Data Validation Checks
 
 -- Preview clean reviews output
 SELECT * 
