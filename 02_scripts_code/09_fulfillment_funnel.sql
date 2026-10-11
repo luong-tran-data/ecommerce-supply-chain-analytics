@@ -1,7 +1,3 @@
--- Fulfillment Funnel & Logistics OTIF Analytics
--- Metrics: Total Delivered, On-Time (OTIF), Delayed, CSAT Rate
--- Target Database: olist_db
-
 USE olist_db;
 
 WITH funnel_base AS (
